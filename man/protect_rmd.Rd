@@ -2,17 +2,22 @@
 % Please edit documentation in R/protect.R
 \name{protect_rmd}
 \alias{protect_rmd}
-\title{Password protect an Rmd file}
+\title{Password Protect an R Markdown File}
 \usage{
 protect_rmd(path, pw, ...)
 }
 \arguments{
-\item{path}{the rmd file you want to protect}
+\item{path}{Path to a R Markdown file.}
 
-\item{pw}{the password}
+\item{pw}{Password.}
 
-\item{...}{additional arguments passed to rmarkdown::render}
+\item{...}{Additional arguments passed to \code{rmarkdown::render}.}
+}
+\value{
+\code{path}, invisibly.
 }
 \description{
-Password protect an Rmd file
+\code{protect_rmd} provides lightweight password protection for your
+HTML format R Markdown reports. Simply point \code{protect_rmd} to the location
+of your file and provide a password.
 }

@@ -1,47 +1,41 @@
-
-
-write_index_html <- function() {
-
-  index_html <- "https://raw.githubusercontent.com/favstats/rmdprotectr/main/inst/index.html"
-
-  raw <- paste0(readLines(index_html), collapse = "\n")
-
-  # if(missing(path)){
-  #   path <- ""
-  # }
-
-  write.table(raw,
-              file='index.html',
-              quote = FALSE,
-              col.names = FALSE,
-              row.names = FALSE)
-}
-
-
-
-
-#' Password protect an Rmd file
+#' Password Protect an R Markdown File
 #'
-#' @param path the rmd file you want to protect
-#' @param pw the password
-#' @param ... additional arguments passed to rmarkdown::render
+#' @description `protect_rmd` provides lightweight password protection for your
+#'   HTML format R Markdown reports. Simply point `protect_rmd` to the location
+#'   of your file and provide a password.
+#'
+#' @param path Path to a R Markdown file.
+#' @param pw Password.
+#' @param ... Additional arguments passed to `rmarkdown::render`.
+#'
+#' @return `path`, invisibly.
 #'
 #' @export
 protect_rmd <- function(path, pw, ...){
+  rmd_dir <- fs::path_dir(fs::path_real(path))
 
-  folder_name <- openssl::sha1(pw)
+  hash <- openssl::sha1(pw)
 
-  if(!dir.exists(folder_name)){
+  hash_dir <- paste0(rmd_dir, "/", hash)
 
-    dir.create(folder_name)
-    message("Created folder with hash")
+  if(!fs::dir_exists(hash_dir)) fs::dir_create(hash_dir)
 
-  }
+  rmarkdown::render(
+    path,
+    output_file = paste0(hash_dir, "/index.html"),
+    ...
+  )
 
-  rmarkdown::render(path, output_file = paste0(folder_name, "/index.html"), ...)
+  write_index_html(rmd_dir)
 
-  write_index_html()
-  message("Wrote index.html to working directory")
-
+  invisible(path)
 }
 
+write_index_html <- function(path) {
+  index_html <- system.file("index.html", package = "rmdprotectr")
+  writeLines(
+    text = readLines(index_html),
+    con = paste0(path, "/index.html"),
+    sep = "\n"
+  )
+}
