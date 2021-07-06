@@ -4,7 +4,7 @@
 \alias{protect_rmd}
 \title{Password Protect an R Markdown File}
 \usage{
-protect_rmd(input, output = NULL, pw, ...)
+protect_rmd(input, output = NULL, pw, style = stylize(), ...)
 }
 \arguments{
 \item{input}{Path to the input R Markdown file to be rendered.}
@@ -12,6 +12,8 @@ protect_rmd(input, output = NULL, pw, ...)
 \item{output}{Path to where the output files should be saved.}
 
 \item{pw}{Password.}
+
+\item{style}{Object returned from \code{stylize()}.}
 
 \item{...}{Additional arguments passed to \code{rmarkdown::render()}.}
 }

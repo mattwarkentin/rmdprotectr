@@ -7,6 +7,19 @@
     <meta name="robots" content="noindex, nofollow" />
 
     <style>
+      :root {
+        --font-family: {{ font_family }};
+        --background-color: {{ background_color }};
+        --font-color: {{ font_color }};
+        --box-color: {{ box_color }};
+        --btn-font-color: {{ btn_font_color }};
+        --btn-bg-color: {{ btn_bg_color }};
+        --btn-hover-color: {{ btn_hover_color }};
+        --alert-font-color: {{ alert_font_color }};
+        --alert-bg-color: {{ alert_bg_color }};
+        --alert-border-color: {{ alert_border_color }};
+      }
+
       *,
       *:after,
       *:before {
@@ -14,13 +27,13 @@
       }
       body,
       html {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+        font-family: var(--font-family), BlinkMacSystemFont, 'Segoe UI', 'Roboto',
           'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
           'Helvetica Neue', sans-serif;
         font-weight: 300;
         font-size: 16px;
-        background: #f2f2f2;
-        color: #2d3737;
+        background: var(--background-color);
+        color: var(--font-color);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -28,7 +41,7 @@
       }
 
       .protected {
-        background: #fff;
+        background: var(--box-color);
         -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
         box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
         border-radius: 3px;
@@ -48,9 +61,9 @@
         border-bottom: 1px solid transparent;
         border-radius: 3px 3px 0 0;
         padding: 12px 14px;
-        color: #a94442;
-        background-color: #f2dede;
-        border-color: #ebccd1;
+        color: var(--alert-font-color);
+        background-color: var(--alert-bg-color);
+        border-color: var(--alert-border-color);
       }
       .protected__content__input {
         display: block;
@@ -66,40 +79,40 @@
       }
       .protected__content__input:focus {
         outline: none;
-        border-color: #228843;
+        border-color: var(--btn-bg-color);
       }
       .protected__content__btn {
-        background-color: #228843;
+        background-color: var(--btn-bg-color);
         border-radius: 3px;
         cursor: pointer;
         border: none;
-        color: #fff;
+        color: var(--btn-font-color);
         padding: 12px 14px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+        font-family: var(--font-family), BlinkMacSystemFont, 'Segoe UI', 'Roboto',
           'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
           'Helvetica Neue', sans-serif;
         font-weight: 500;
         font-size: 16px;
       }
       .protected__content__btn:hover {
-        background-color: #1c6d36;
+        background-color: var(--btn-hover-color);
       }
     </style>
   </head>
 
   <body>
     <div class="protected">
-      <div class="protected__alert" data-id="alert">Incorrect password</div>
+      <div class="protected__alert" data-id="alert">{{ incorrect_text }}</div>
       <div class="protected__content">
-        <h1 class="protected__content__heading">Please enter the password</h1>
+        <h1 class="protected__content__heading">{{ header_text }}</h1>
         <input
           class="protected__content__input"
           data-id="password"
           type="password"
-          placeholder="password"
+          placeholder="{{ placeholder }}"
         />
         <button data-id="button" type="button" class="protected__content__btn">
-          Continue
+          {{ button_text }}
         </button>
       </div>
     </div>
@@ -127,14 +140,14 @@
           } else {
             parent.location.hash = hash
             alert[0].style.display = 'block'
-            password[0].setAttribute('placeholder', 'Incorrect password')
+            password[0].setAttribute('placeholder', '{{ incorrect_text }}')
             password[0].value = ''
           }
         }
         request.onerror = function () {
           parent.location.hash = hash
           alert[0].style.display = 'block'
-          password[0].setAttribute('placeholder', 'Incorrect password')
+          password[0].setAttribute('placeholder', '{{ incorrect_text }}')
           password[0].value = ''
         }
         request.send()
