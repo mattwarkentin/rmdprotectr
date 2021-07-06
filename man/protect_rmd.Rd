@@ -4,17 +4,19 @@
 \alias{protect_rmd}
 \title{Password Protect an R Markdown File}
 \usage{
-protect_rmd(path, pw, ...)
+protect_rmd(input, output = NULL, pw, ...)
 }
 \arguments{
-\item{path}{Path to a R Markdown file.}
+\item{input}{Path to the input R Markdown file to be rendered.}
+
+\item{output}{Path to where the output files should be saved.}
 
 \item{pw}{Password.}
 
-\item{...}{Additional arguments passed to \code{rmarkdown::render}.}
+\item{...}{Additional arguments passed to \code{rmarkdown::render()}.}
 }
 \value{
-\code{path}, invisibly.
+\code{input}, invisibly.
 }
 \description{
 \code{protect_rmd} provides lightweight password protection for your
